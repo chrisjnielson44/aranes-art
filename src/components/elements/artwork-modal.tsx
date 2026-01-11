@@ -72,7 +72,7 @@ export function ArtworkModal({
       >
         <button
           onClick={onClose}
-          className="absolute right-4 top-4 rounded-full bg-olive-950/10 p-2 text-olive-950 hover:bg-olive-950/20 dark:bg-white/10 dark:text-white dark:hover:bg-white/20"
+          className="absolute top-4 right-4 rounded-full bg-olive-950/10 p-2 text-olive-950 hover:bg-olive-950/20 dark:bg-white/10 dark:text-white dark:hover:bg-white/20"
           aria-label="Close modal"
         >
           <svg className="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -98,7 +98,7 @@ export function ArtworkModal({
 
             {medium && (
               <div>
-                <h3 className="text-sm font-semibold uppercase tracking-wider text-olive-600 dark:text-olive-500">
+                <h3 className="text-sm font-semibold tracking-wider text-olive-600 uppercase dark:text-olive-500">
                   Medium
                 </h3>
                 <p className="mt-1 text-olive-950 dark:text-white">{medium}</p>
@@ -107,7 +107,7 @@ export function ArtworkModal({
 
             {dimensions && (
               <div>
-                <h3 className="text-sm font-semibold uppercase tracking-wider text-olive-600 dark:text-olive-500">
+                <h3 className="text-sm font-semibold tracking-wider text-olive-600 uppercase dark:text-olive-500">
                   Dimensions
                 </h3>
                 <p className="mt-1 text-olive-950 dark:text-white">{dimensions}</p>
@@ -116,19 +116,10 @@ export function ArtworkModal({
 
             {description && (
               <div>
-                <h3 className="text-sm font-semibold uppercase tracking-wider text-olive-600 dark:text-olive-500">
+                <h3 className="text-sm font-semibold tracking-wider text-olive-600 uppercase dark:text-olive-500">
                   About this piece
                 </h3>
                 <p className="mt-1 text-olive-950 dark:text-white">{description}</p>
-              </div>
-            )}
-
-            {price && !sold && (
-              <div>
-                <h3 className="text-sm font-semibold uppercase tracking-wider text-olive-600 dark:text-olive-500">
-                  Price
-                </h3>
-                <p className="mt-1 text-2xl font-bold text-olive-950 dark:text-white">{price}</p>
               </div>
             )}
 

@@ -34,7 +34,7 @@ export function ArtworkCard({
       {...props}
     >
       <div className="relative aspect-square overflow-hidden rounded-md bg-olive-100 outline -outline-offset-1 outline-black/5 dark:bg-olive-900 dark:outline-white/5">
-        <div className="size-full object-cover transition-transform duration-300 group-hover:scale-105 *:size-full *:object-cover">
+        <div className="size-full object-cover transition-transform duration-300 *:size-full *:object-cover group-hover:scale-105">
           {image}
         </div>
         {sold && (
@@ -56,8 +56,6 @@ export function ArtworkCard({
             {year}
           </p>
         )}
-
-        {price && !sold && <p className="mt-1 font-medium text-olive-950 dark:text-white">{price}</p>}
       </div>
     </div>
   )

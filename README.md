@@ -8,10 +8,6 @@ A modern art gallery portfolio website built with [Tailwind CSS](https://tailwin
 
 This project requires Tailwind CSS v4. Install the required dependencies:
 
-```bash
-npm install clsx @tailwindplus/elements@latest
-```
-
 ### 2. Set up CSS file
 
 Add the following CSS to your global stylesheet:

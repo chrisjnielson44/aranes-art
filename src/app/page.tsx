@@ -1,11 +1,11 @@
 'use client'
 
-import { ButtonLink } from '@/components/elements/button'
 import { ArtworkCard } from '@/components/elements/artwork-card'
 import { ArtworkModal } from '@/components/elements/artwork-modal'
+import { ButtonLink } from '@/components/elements/button'
+import { CallToActionSimpleCentered } from '@/components/sections/call-to-action-simple-centered'
 import { GalleryGrid } from '@/components/sections/gallery-grid'
 import { HeroSimpleCentered } from '@/components/sections/hero-simple-centered'
-import { CallToActionSimpleCentered } from '@/components/sections/call-to-action-simple-centered'
 import { useState } from 'react'
 
 // Sample artwork data - replace with real artwork information
@@ -85,35 +85,33 @@ export default function Page() {
       {/* Hero */}
       <HeroSimpleCentered
         id="hero"
-        headline="Where Colors Collide and Find Balance"
-        subheadline={
-          <p>
-            Abstract expressionist paintings by Aranes. Each piece invites viewers to discover their own meaning through
-            color, gesture, and movement. <strong>(Uniform Grid Style)</strong>
-          </p>
-        }
+        headline="Hang an original Aranés."
+        subheadline={<p>Let contemplation guide you to create your own expression.</p>}
         cta={
           <div className="flex items-center gap-4">
-            <ButtonLink href="#gallery" size="lg">
+            {/*<ButtonLink href="#gallery" size="lg">
               View Gallery
             </ButtonLink>
             <ButtonLink href="/gallery-masonry" size="lg" color="light">
               View Masonry Style
-            </ButtonLink>
+            </ButtonLink>*/}
           </div>
         }
       />
 
       {/* Gallery */}
-      <GalleryGrid id="gallery" eyebrow="Portfolio" headline="Recent Works" subheadline={<p>Original artwork available for purchase and commission</p>}>
+      <GalleryGrid
+        id="gallery"
+        eyebrow="Portfolio"
+        headline="Original Works"
+        subheadline={<p>Original artwork available for purchase and commission</p>}
+      >
         {artworks.map((artwork) => (
           <ArtworkCard
             key={artwork.id}
             image={
               <div className="flex size-full items-center justify-center bg-gradient-to-br from-olive-200 to-olive-400 dark:from-olive-800 dark:to-olive-950">
-                <span className="text-sm text-olive-700 dark:text-olive-300">
-                  Art Image Here
-                </span>
+                <span className="text-sm text-olive-700 dark:text-olive-300">Art Image Here</span>
               </div>
             }
             title={artwork.title}
