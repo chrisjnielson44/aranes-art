@@ -2,7 +2,7 @@
 
 import { clsx } from 'clsx/lite'
 import type { ReactNode } from 'react'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from './button'
 
 export function ArtworkModal({
@@ -28,11 +28,14 @@ export function ArtworkModal({
   description?: string
   sold?: boolean
 }) {
+  const [isFullscreen, setIsFullscreen] = useState(false)
+
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden'
     } else {
       document.body.style.overflow = 'unset'
+      setIsFullscreen(false)
     }
 
     return () => {
@@ -43,7 +46,11 @@ export function ArtworkModal({
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        onClose()
+        if (isFullscreen) {
+          setIsFullscreen(false)
+        } else {
+          onClose()
+        }
       }
     }
 
@@ -54,9 +61,29 @@ export function ArtworkModal({
     return () => {
       document.removeEventListener('keydown', handleEscape)
     }
-  }, [isOpen, onClose])
+  }, [isOpen, onClose, isFullscreen])
 
   if (!isOpen) return null
+
+  if (isFullscreen) {
+    return (
+      <div
+        className="fixed inset-0 z-[9999] flex cursor-pointer items-center justify-center bg-black"
+        onClick={() => setIsFullscreen(false)}
+      >
+        <button
+          onClick={() => setIsFullscreen(false)}
+          className="absolute top-4 right-4 z-10 rounded-full bg-white/10 p-2 text-white hover:bg-white/20"
+          aria-label="Exit fullscreen"
+        >
+          <svg className="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+        <div className="*:max-h-screen *:max-w-full *:object-contain">{image}</div>
+      </div>
+    )
+  }
 
   return (
     <div
@@ -65,7 +92,7 @@ export function ArtworkModal({
     >
       <div
         className={clsx(
-          'relative max-h-[90vh] w-full max-w-6xl overflow-y-auto rounded-lg bg-white p-6 shadow-2xl dark:bg-olive-950',
+          'relative max-h-[95vh] w-full max-w-7xl overflow-y-auto rounded-lg bg-white p-8 shadow-2xl dark:bg-olive-950',
           'animate-in fade-in zoom-in-95 duration-300',
         )}
         onClick={(e) => e.stopPropagation()}
@@ -81,8 +108,11 @@ export function ArtworkModal({
         </button>
 
         <div className="grid gap-8 md:grid-cols-2">
-          <div className="relative aspect-square overflow-hidden rounded-lg bg-olive-100 dark:bg-olive-900">
-            <div className="size-full *:size-full *:object-contain">{image}</div>
+          <div
+            className="relative flex cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-olive-100 dark:bg-olive-900"
+            onClick={() => setIsFullscreen(true)}
+          >
+            <div className="*:max-h-[80vh] *:w-auto *:object-contain">{image}</div>
             {sold && (
               <div className="absolute inset-0 flex items-center justify-center bg-black/40">
                 <span className="rounded-full bg-white px-6 py-3 text-lg font-semibold text-olive-950">SOLD</span>
