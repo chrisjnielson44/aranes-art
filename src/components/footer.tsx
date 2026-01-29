@@ -32,7 +32,7 @@ export function Footer() {
           </FooterCategory>
         </>
       }
-      fineprint="© 2025 Aranes. All rights reserved."
+      fineprint="© 2026 Aranes. All rights reserved."
     />
   )
 }

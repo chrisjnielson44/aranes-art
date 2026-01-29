@@ -40,8 +40,8 @@ export function ContactForm({
 
   return (
     <Section className={className} {...props}>
-      <form onSubmit={handleSubmit} className="mx-auto max-w-2xl">
-        <div className="flex flex-col gap-6">
+      <form onSubmit={handleSubmit} className="w-full">
+        <div className="mx-auto flex w-full max-w-none flex-col gap-6">
           {/* Name Field */}
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-olive-950 dark:text-white">
@@ -56,7 +56,7 @@ export function ContactForm({
               onChange={handleChange}
               className={clsx(
                 'mt-2 w-full rounded-lg border border-olive-950/10 bg-white px-4 py-3 text-olive-950',
-                'placeholder:text-olive-500 focus:border-olive-500 focus:outline-none focus:ring-2 focus:ring-olive-500/20',
+                'placeholder:text-olive-500 focus:border-olive-500 focus:ring-2 focus:ring-olive-500/20 focus:outline-none',
                 'dark:border-white/10 dark:bg-olive-950/50 dark:text-white dark:placeholder:text-olive-400',
                 'dark:focus:border-olive-400 dark:focus:ring-olive-400/20',
               )}
@@ -78,7 +78,7 @@ export function ContactForm({
               onChange={handleChange}
               className={clsx(
                 'mt-2 w-full rounded-lg border border-olive-950/10 bg-white px-4 py-3 text-olive-950',
-                'placeholder:text-olive-500 focus:border-olive-500 focus:outline-none focus:ring-2 focus:ring-olive-500/20',
+                'placeholder:text-olive-500 focus:border-olive-500 focus:ring-2 focus:ring-olive-500/20 focus:outline-none',
                 'dark:border-white/10 dark:bg-olive-950/50 dark:text-white dark:placeholder:text-olive-400',
                 'dark:focus:border-olive-400 dark:focus:ring-olive-400/20',
               )}
@@ -99,7 +99,7 @@ export function ContactForm({
               onChange={handleChange}
               className={clsx(
                 'mt-2 w-full rounded-lg border border-olive-950/10 bg-white px-4 py-3 text-olive-950',
-                'placeholder:text-olive-500 focus:border-olive-500 focus:outline-none focus:ring-2 focus:ring-olive-500/20',
+                'placeholder:text-olive-500 focus:border-olive-500 focus:ring-2 focus:ring-olive-500/20 focus:outline-none',
                 'dark:border-white/10 dark:bg-olive-950/50 dark:text-white dark:placeholder:text-olive-400',
                 'dark:focus:border-olive-400 dark:focus:ring-olive-400/20',
               )}
@@ -120,7 +120,7 @@ export function ContactForm({
                 onChange={handleChange}
                 className={clsx(
                   'mt-2 w-full rounded-lg border border-olive-950/10 bg-white px-4 py-3 text-olive-950',
-                  'focus:border-olive-500 focus:outline-none focus:ring-2 focus:ring-olive-500/20',
+                  'focus:border-olive-500 focus:ring-2 focus:ring-olive-500/20 focus:outline-none',
                   'dark:border-white/10 dark:bg-olive-950/50 dark:text-white',
                   'dark:focus:border-olive-400 dark:focus:ring-olive-400/20',
                 )}
@@ -149,7 +149,7 @@ export function ContactForm({
               onChange={handleChange}
               className={clsx(
                 'mt-2 w-full resize-none rounded-lg border border-olive-950/10 bg-white px-4 py-3 text-olive-950',
-                'placeholder:text-olive-500 focus:border-olive-500 focus:outline-none focus:ring-2 focus:ring-olive-500/20',
+                'placeholder:text-olive-500 focus:border-olive-500 focus:ring-2 focus:ring-olive-500/20 focus:outline-none',
                 'dark:border-white/10 dark:bg-olive-950/50 dark:text-white dark:placeholder:text-olive-400',
                 'dark:focus:border-olive-400 dark:focus:ring-olive-400/20',
               )}
@@ -168,9 +168,7 @@ export function ContactForm({
             )}
 
             {status === 'error' && (
-              <p className="text-sm text-red-600 dark:text-red-400">
-                Failed to send message. Please try again.
-              </p>
+              <p className="text-sm text-red-600 dark:text-red-400">Failed to send message. Please try again.</p>
             )}
           </div>
         </div>

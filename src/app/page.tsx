@@ -14,27 +14,11 @@ import { useState } from 'react'
 
 const artworks = [
   {
-    id: '1',
-    title: 'Somewhere in La Mancha',
+    id: '5',
+    title: 'Musical Falls',
     medium: 'Acrylic on Canvas',
-    dimensions: '48" x 72"',
-    image: '/Somewhere in La Mancha.jpg',
-    sold: false,
-  },
-  {
-    id: '2',
-    title: 'Song of the Pear',
-    medium: 'Acrylic on Canvas',
-    dimensions: '31" x 47"',
-    image: '/Song of the Pear.jpg',
-    sold: false,
-  },
-  {
-    id: '3',
-    title: 'Lemon Circus',
-    medium: 'Acrylic on Canvas',
-    dimensions: '48" x 48"',
-    image: '/Lemon Circus.jpg',
+    dimensions: '36" x 48"',
+    image: '/Musical Falls.jpg',
     sold: false,
   },
   {
@@ -46,13 +30,29 @@ const artworks = [
     sold: false,
   },
   {
-    id: '5',
-    title: 'Musical Falls',
+    id: '3',
+    title: 'Lemon Circus',
     medium: 'Acrylic on Canvas',
-    dimensions: '36" x 48"',
-    image: '/Musical Falls.jpg',
+    dimensions: '48" x 48"',
+    image: '/Lemon Circus.jpg',
     sold: false,
   },
+  {
+    id: '2',
+    title: 'Song of the Pear',
+    medium: 'Acrylic on Canvas',
+    dimensions: '31" x 47"',
+    image: '/Song of the Pear.jpg',
+    sold: false,
+  },
+  /*{
+    id: '1',
+    title: 'Somewhere in La Mancha',
+    medium: 'Acrylic on Canvas',
+    dimensions: '48" x 72"',
+    image: '/Somewhere in La Mancha.jpg',
+    sold: false,
+  },*/
 ]
 
 export default function Page() {
@@ -67,7 +67,7 @@ export default function Page() {
           <HeroSimpleCentered
             id="hero"
             headline="Hang an original Aranés."
-            subheadline={<p>Let contemplation guide you to create your own expression.</p>}
+            subheadline={<p>A timeless piece that speaks without words.</p>}
             cta={
               <div className="flex items-center gap-4">
                 {/*<ButtonLink href="#gallery" size="lg">

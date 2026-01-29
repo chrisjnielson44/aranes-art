@@ -25,21 +25,25 @@
     "clsx": "^2.1.1",
     "framer-motion": "^12.25.0",
     "motion": "^12.26.2",
-    "next": "^16",
-    "react": "^19",
-    "react-dom": "^19",
+    "next": "16.1.6",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
     "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.18",
     "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
+    "@types/react": "19.2.10",
+    "@types/react-dom": "19.2.3",
     "eslint": "^9",
-    "eslint-config-next": "^16",
+    "eslint-config-next": "16.1.6",
     "prettier": "^3.6.2",
     "prettier-plugin-organize-imports": "^4.3.0",
     "prettier-plugin-tailwindcss": "^0.7.2",
     "typescript": "^5"
+  },
+  "overrides": {
+    "@types/react": "19.2.10",
+    "@types/react-dom": "19.2.3"
   }
 }
