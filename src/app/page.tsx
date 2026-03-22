@@ -14,6 +14,38 @@ import { useState } from 'react'
 
 const artworks = [
   {
+    id: '9',
+    title: 'The Woman',
+    medium: 'Acrylic on Canvas',
+    dimensions: '31.5" x 47"',
+    image: '/The Woman.jpeg',
+    sold: false,
+  },
+  {
+    id: '8',
+    title: 'The Man',
+    medium: 'Acrylic on Canvas',
+    dimensions: '31.5" x 47"',
+    image: '/The Man.jpeg',
+    sold: false,
+  },
+  {
+    id: '7',
+    title: 'Colorful Winds',
+    medium: 'Acrylic on Canvas',
+    dimensions: '24" x 48"',
+    image: '/Colorful Winds.jpeg',
+    sold: false,
+  },
+  {
+    id: '6',
+    title: 'Aurora',
+    medium: 'Acrylic on Canvas',
+    dimensions: '24" x 48"',
+    image: '/Aurora.jpeg',
+    sold: false,
+  },
+  {
     id: '5',
     title: 'Musical Falls',
     medium: 'Acrylic on Canvas',
