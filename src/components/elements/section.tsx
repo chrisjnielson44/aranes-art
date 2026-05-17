@@ -35,7 +35,7 @@ export function Section({
 
   return (
     <section className={clsx('py-16', className)} {...props}>
-      <Container className="flex flex-col gap-10 sm:gap-16">
+      <Container className="flex flex-col gap-6 sm:gap-8">
         {headerFadeIn ? <FadeIn>{header}</FadeIn> : header}
         <div>{children}</div>
       </Container>

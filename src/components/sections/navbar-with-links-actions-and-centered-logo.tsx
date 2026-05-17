@@ -47,7 +47,7 @@ export function NavbarWithLinksActionsAndCenteredLogo({
     <header className={clsx('bg-olive-100 dark:bg-olive-950', className)} {...props}>
       <style>{`:root { --scroll-padding-top: 5.25rem }`}</style>
       <nav>
-        <div className="mx-auto flex h-(--scroll-padding-top) max-w-7xl items-center gap-4 px-6 lg:px-10">
+        <div className="mx-auto flex h-(--scroll-padding-top) max-w-7xl items-center gap-4 px-6 pt-2 lg:px-10">
           <div className="flex items-center">{logo}</div>
           <div className="flex flex-1 items-center justify-end gap-4">
             <div className="flex flex-1 justify-end gap-8 max-lg:hidden">{links}</div>

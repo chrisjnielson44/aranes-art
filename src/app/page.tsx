@@ -17,16 +17,22 @@ const artworks = [
     id: '9',
     title: 'The Woman',
     medium: 'Acrylic on Canvas',
-    dimensions: '31.5" x 47"',
+    dimensions: '31.5" x 47.5"',
     image: '/The Woman.jpeg',
+    displayWidth: 31.5,
+    displayHeight: 47.5,
+    price: '$800',
     sold: false,
   },
   {
     id: '8',
     title: 'The Man',
     medium: 'Acrylic on Canvas',
-    dimensions: '31.5" x 47"',
+    dimensions: '31.5" x 47.5"',
     image: '/The Man.jpeg',
+    displayWidth: 31.5,
+    displayHeight: 47.5,
+    price: '$800',
     sold: false,
   },
   {
@@ -35,6 +41,9 @@ const artworks = [
     medium: 'Acrylic on Canvas',
     dimensions: '24" x 48"',
     image: '/Colorful Winds.jpeg',
+    displayWidth: 24,
+    displayHeight: 48,
+    price: '$400',
     sold: false,
   },
   {
@@ -43,14 +52,9 @@ const artworks = [
     medium: 'Acrylic on Canvas',
     dimensions: '24" x 48"',
     image: '/Aurora.jpeg',
-    sold: false,
-  },
-  {
-    id: '5',
-    title: 'Musical Falls',
-    medium: 'Acrylic on Canvas',
-    dimensions: '36" x 48"',
-    image: '/Musical Falls.jpg',
+    displayWidth: 24,
+    displayHeight: 48,
+    price: '$400',
     sold: false,
   },
   {
@@ -59,6 +63,42 @@ const artworks = [
     medium: 'Acrylic on Canvas',
     dimensions: '48" x 60"',
     image: '/Ocean Ballet.jpg',
+    displayWidth: 60,
+    displayHeight: 48,
+    price: '$1,400',
+    sold: false,
+  },
+  {
+    id: '5',
+    title: 'Musical Falls',
+    medium: 'Acrylic on Canvas',
+    dimensions: '36" x 48"',
+    image: '/Musical Falls.jpg',
+    displayWidth: 36,
+    displayHeight: 48,
+    price: '$850',
+    sold: false,
+  },
+  {
+    id: '10',
+    title: 'Sunset in the Mountains',
+    medium: 'Acrylic on Canvas',
+    dimensions: '48" x 36"',
+    image: '/Sunset in the Mountains.jpeg',
+    displayWidth: 48,
+    displayHeight: 36,
+    price: '$850',
+    sold: false,
+  },
+  {
+    id: '1',
+    title: 'Somewhere in La Mancha',
+    medium: 'Acrylic on Canvas',
+    dimensions: '72" x 48"',
+    image: '/Somewhere in La Mancha.jpeg',
+    displayWidth: 72,
+    displayHeight: 48,
+    price: '$5,000',
     sold: false,
   },
   {
@@ -67,14 +107,20 @@ const artworks = [
     medium: 'Acrylic on Canvas',
     dimensions: '48" x 48"',
     image: '/Lemon Circus.jpg',
+    displayWidth: 48,
+    displayHeight: 48,
+    price: '$1,200',
     sold: false,
   },
   {
     id: '2',
     title: 'Song of the Pear',
     medium: 'Acrylic on Canvas',
-    dimensions: '31" x 47"',
+    dimensions: '31.5" x 47.5"',
     image: '/Song of the Pear.jpg',
+    displayWidth: 31.5,
+    displayHeight: 47.5,
+    price: '$800',
     sold: false,
   },
   /*{
@@ -87,6 +133,10 @@ const artworks = [
   },*/
 ]
 
+const largestArtworkSide = 40
+const threeAcrossArtworkIds = new Set(['4', '5', '10'])
+const fullRowArtworkIds = new Set(['1'])
+
 export default function Page() {
   const [selectedArtwork, setSelectedArtwork] = useState<(typeof artworks)[0] | null>(null)
 
@@ -98,6 +148,7 @@ export default function Page() {
         <FadeIn>
           <HeroSimpleCentered
             id="hero"
+            className="flex min-h-[28vh] items-center py-6 sm:min-h-[30vh] lg:min-h-[32vh]"
             headline="Hang an original Aranés."
             subheadline={<p>A timeless piece that speaks without words.</p>}
             cta={
@@ -116,18 +167,33 @@ export default function Page() {
         {/* Gallery */}
         <GalleryGrid
           id="gallery"
+          className="pt-2"
           eyebrow="Portfolio"
           headline="Original Works"
           subheadline={<p>Original artwork available for purchase and commission</p>}
           headerFadeIn
         >
           {artworks.map((artwork, index) => (
-            <FadeIn key={artwork.id} delay={index * 0.1}>
+            <FadeIn
+              key={artwork.id}
+              delay={index * 0.1}
+              className={
+                fullRowArtworkIds.has(artwork.id)
+                  ? 'md:col-span-6'
+                  : threeAcrossArtworkIds.has(artwork.id)
+                    ? 'md:col-span-2'
+                    : 'md:col-span-3'
+              }
+            >
               <ArtworkCard
                 image={<img src={artwork.image} alt={artwork.title} />}
                 title={artwork.title}
                 medium={artwork.medium}
                 dimensions={artwork.dimensions}
+                price={artwork.price}
+                displayWidth={artwork.displayWidth}
+                displayHeight={artwork.displayHeight}
+                displayMaxSide={largestArtworkSide}
                 sold={artwork.sold}
                 onClick={() => setSelectedArtwork(artwork)}
               />
@@ -139,11 +205,10 @@ export default function Page() {
         <FadeIn>
           <CallToActionSimpleCentered
             id="contact-cta"
-            headline="Interested in a piece or commissioning custom artwork?"
+            headline="Interested in a piece for your gallery or collection?"
             subheadline={
               <p>
-                Whether you're a collector, gallery owner, or looking for a custom piece for your space, I'd love to
-                hear from you.
+                Whether you&apos;re a collector or gallery owner, I&apos;d love to hear from you.
               </p>
             }
             cta={
@@ -165,6 +230,7 @@ export default function Page() {
           title={selectedArtwork.title}
           medium={selectedArtwork.medium}
           dimensions={selectedArtwork.dimensions}
+          price={selectedArtwork.price}
           sold={selectedArtwork.sold}
         />
       )}

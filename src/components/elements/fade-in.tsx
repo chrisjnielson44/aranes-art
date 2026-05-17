@@ -20,8 +20,9 @@ export function FadeIn({
   return (
     <motion.div
       key={pathname}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true, margin: '-80px' }}
       transition={{ duration: 0.5, delay, ease: 'easeOut' }}
       className={className}
       {...props}

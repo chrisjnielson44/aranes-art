@@ -35,7 +35,6 @@ export function ArtworkModal({
       document.body.style.overflow = 'hidden'
     } else {
       document.body.style.overflow = 'unset'
-      setIsFullscreen(false)
     }
 
     return () => {
@@ -141,6 +140,15 @@ export function ArtworkModal({
                   Dimensions
                 </h3>
                 <p className="mt-1 text-olive-950 dark:text-white">{dimensions}</p>
+              </div>
+            )}
+
+            {price && !sold && (
+              <div>
+                <h3 className="text-sm font-semibold tracking-wider text-olive-600 uppercase dark:text-olive-500">
+                  Price
+                </h3>
+                <p className="mt-1 text-olive-950 dark:text-white">{price}</p>
               </div>
             )}
 
