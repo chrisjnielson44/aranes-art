@@ -21,7 +21,6 @@ const artworks = [
     image: '/The Woman.jpeg',
     displayWidth: 31.5,
     displayHeight: 47.5,
-    price: '$800',
     sold: false,
   },
   {
@@ -32,7 +31,6 @@ const artworks = [
     image: '/The Man.jpeg',
     displayWidth: 31.5,
     displayHeight: 47.5,
-    price: '$800',
     sold: false,
   },
   {
@@ -43,7 +41,6 @@ const artworks = [
     image: '/Colorful Winds.jpeg',
     displayWidth: 24,
     displayHeight: 48,
-    price: '$400',
     sold: false,
   },
   {
@@ -54,7 +51,6 @@ const artworks = [
     image: '/Aurora.jpeg',
     displayWidth: 24,
     displayHeight: 48,
-    price: '$400',
     sold: false,
   },
   {
@@ -65,7 +61,6 @@ const artworks = [
     image: '/Ocean Ballet.jpg',
     displayWidth: 60,
     displayHeight: 48,
-    price: '$1,400',
     sold: false,
   },
   {
@@ -76,7 +71,6 @@ const artworks = [
     image: '/Musical Falls.jpg',
     displayWidth: 36,
     displayHeight: 48,
-    price: '$850',
     sold: false,
   },
   {
@@ -87,7 +81,6 @@ const artworks = [
     image: '/Sunset in the Mountains.jpeg',
     displayWidth: 48,
     displayHeight: 36,
-    price: '$850',
     sold: false,
   },
   {
@@ -98,18 +91,6 @@ const artworks = [
     image: '/Somewhere in La Mancha.jpeg',
     displayWidth: 72,
     displayHeight: 48,
-    price: '$5,000',
-    sold: false,
-  },
-  {
-    id: '3',
-    title: 'Lemon Circus',
-    medium: 'Acrylic on Canvas',
-    dimensions: '48" x 48"',
-    image: '/Lemon Circus.jpg',
-    displayWidth: 48,
-    displayHeight: 48,
-    price: '$1,200',
     sold: false,
   },
   {
@@ -120,7 +101,6 @@ const artworks = [
     image: '/Song of the Pear.jpg',
     displayWidth: 31.5,
     displayHeight: 47.5,
-    price: '$800',
     sold: false,
   },
   /*{
@@ -148,7 +128,7 @@ export default function Page() {
         <FadeIn>
           <HeroSimpleCentered
             id="hero"
-            className="flex min-h-[28vh] items-center py-6 sm:min-h-[30vh] lg:min-h-[32vh]"
+            className="flex min-h-[22vh] items-center pt-10 pb-14 sm:min-h-[24vh] sm:pt-12 sm:pb-16 lg:min-h-[26vh] lg:pt-14 lg:pb-20"
             headline="Hang an original Aranés."
             subheadline={<p>A timeless piece that speaks without words.</p>}
             cta={
@@ -167,10 +147,10 @@ export default function Page() {
         {/* Gallery */}
         <GalleryGrid
           id="gallery"
-          className="pt-2"
+          className="pt-4 pb-16 sm:pt-6 lg:pt-8"
           eyebrow="Portfolio"
           headline="Original Works"
-          subheadline={<p>Original artwork available for purchase and commission</p>}
+          subheadline={<p>Original artworks available through gallery representation</p>}
           headerFadeIn
         >
           {artworks.map((artwork, index) => (
@@ -190,7 +170,6 @@ export default function Page() {
                 title={artwork.title}
                 medium={artwork.medium}
                 dimensions={artwork.dimensions}
-                price={artwork.price}
                 displayWidth={artwork.displayWidth}
                 displayHeight={artwork.displayHeight}
                 displayMaxSide={largestArtworkSide}
@@ -205,10 +184,10 @@ export default function Page() {
         <FadeIn>
           <CallToActionSimpleCentered
             id="contact-cta"
-            headline="Interested in a piece for your gallery or collection?"
+            headline="Interested in a piece for your gallery?"
             subheadline={
               <p>
-                Whether you&apos;re a collector or gallery owner, I&apos;d love to hear from you.
+                Gallery owners, I&apos;d love to hear from you.
               </p>
             }
             cta={
@@ -230,7 +209,6 @@ export default function Page() {
           title={selectedArtwork.title}
           medium={selectedArtwork.medium}
           dimensions={selectedArtwork.dimensions}
-          price={selectedArtwork.price}
           sold={selectedArtwork.sold}
         />
       )}
