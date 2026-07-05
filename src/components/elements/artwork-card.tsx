@@ -8,7 +8,6 @@ export function ArtworkCard({
   title,
   medium,
   dimensions,
-  price,
   year,
   sold = false,
   onClick,
@@ -23,7 +22,6 @@ export function ArtworkCard({
   title: string
   medium?: string
   dimensions?: string
-  price?: string
   year?: string | number
   sold?: boolean
   onClick?: () => void
@@ -91,7 +89,6 @@ export function ArtworkCard({
             </p>
           )}
 
-          {price && !sold && <p className="mt-1 font-medium text-olive-950 dark:text-white">{price}</p>}
         </div>
       )}
     </div>

@@ -12,7 +12,6 @@ export function ArtworkModal({
   title,
   medium,
   dimensions,
-  price,
   year,
   description,
   sold = false,
@@ -23,7 +22,6 @@ export function ArtworkModal({
   title: string
   medium?: string
   dimensions?: string
-  price?: string
   year?: string | number
   description?: string
   sold?: boolean
@@ -140,15 +138,6 @@ export function ArtworkModal({
                   Dimensions
                 </h3>
                 <p className="mt-1 text-olive-950 dark:text-white">{dimensions}</p>
-              </div>
-            )}
-
-            {price && !sold && (
-              <div>
-                <h3 className="text-sm font-semibold tracking-wider text-olive-600 uppercase dark:text-olive-500">
-                  Price
-                </h3>
-                <p className="mt-1 text-olive-950 dark:text-white">{price}</p>
               </div>
             )}
 

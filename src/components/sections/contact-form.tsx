@@ -153,7 +153,7 @@ export function ContactForm({
                 'dark:border-white/10 dark:bg-olive-950/50 dark:text-white dark:placeholder:text-olive-400',
                 'dark:focus:border-olive-400 dark:focus:ring-olive-400/20',
               )}
-              placeholder="Tell me about your inquiry, commission request, or gallery interest..."
+              placeholder="Tell me about your gallery interest..."
             />
           </div>
 

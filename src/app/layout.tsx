@@ -4,7 +4,7 @@ import './globals.css'
 export const metadata: Metadata = {
   title: 'Aranes - Abstract Expressionist Artist',
   description:
-    'Original abstract expressionist paintings by Aranes, a self-taught artist based in Naples, Florida. Available for purchase and commission.',
+    'Original abstract expressionist paintings by Aranes, a self-taught artist based in Naples, Florida. Available through gallery representation.',
 }
 
 export default function RootLayout({
