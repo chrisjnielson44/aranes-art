@@ -11,6 +11,7 @@ import { CallToActionSimpleCentered } from '@/components/sections/call-to-action
 import { GalleryGrid } from '@/components/sections/gallery-grid'
 import { HeroSimpleCentered } from '@/components/sections/hero-simple-centered'
 import { artworks } from '@/lib/artworks'
+import Image from 'next/image'
 import { useState } from 'react'
 
 const largestArtworkSide = 40
@@ -28,26 +29,16 @@ export default function Page() {
         <FadeIn>
           <HeroSimpleCentered
             id="hero"
-            className="flex min-h-[22vh] items-center pt-10 pb-14 sm:min-h-[24vh] sm:pt-12 sm:pb-16 lg:min-h-[26vh] lg:pt-14 lg:pb-20"
+            className="py-16 sm:py-20 lg:py-24"
             headline="Hang an original Aranés."
             subheadline={<p>A timeless piece that speaks without words.</p>}
-            cta={
-              <div className="flex items-center gap-4">
-                {/*<ButtonLink href="#gallery" size="lg">
-                  View Gallery
-                </ButtonLink>
-                <ButtonLink href="/gallery-masonry" size="lg" color="light">
-                  View Masonry Style
-                </ButtonLink>*/}
-              </div>
-            }
           />
         </FadeIn>
 
         {/* Gallery */}
         <GalleryGrid
           id="gallery"
-          className="pt-4 pb-16 sm:pt-6 lg:pt-8"
+          className="pt-0 pb-16"
           eyebrow="Portfolio"
           headline="Original Works"
           subheadline={<p>Original artworks available through gallery representation</p>}
@@ -56,7 +47,7 @@ export default function Page() {
           {artworks.map((artwork, index) => (
             <FadeIn
               key={artwork.id}
-              delay={index * 0.1}
+              delay={(index % 2) * 0.08}
               className={
                 fullRowArtworkIds.has(artwork.id)
                   ? 'md:col-span-6'
@@ -66,7 +57,16 @@ export default function Page() {
               }
             >
               <ArtworkCard
-                image={<img src={artwork.image} alt={artwork.title} />}
+                image={
+                  <Image
+                    src={artwork.image}
+                    alt={artwork.title}
+                    width={Math.round(artwork.displayWidth * 40)}
+                    height={Math.round(artwork.displayHeight * 40)}
+                    sizes="(min-width: 768px) 50vw, 100vw"
+                    priority={index < 2}
+                  />
+                }
                 title={artwork.title}
                 medium={artwork.medium}
                 dimensions={artwork.dimensions}

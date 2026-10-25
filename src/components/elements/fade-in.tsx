@@ -4,7 +4,10 @@ import { motion } from 'framer-motion'
 import { usePathname } from 'next/navigation'
 import type { ComponentProps, ReactNode } from 'react'
 
-// Simple fade in on mount/scroll
+// Same feel as sola.llc: a short rise with a long, soft ease-out, triggered once a sliver of the element is on screen.
+const smoothEase = [0.22, 1, 0.36, 1] as const
+
+// Fade up on mount/scroll
 export function FadeIn({
   children,
   delay = 0,
@@ -20,10 +23,11 @@ export function FadeIn({
   return (
     <motion.div
       key={pathname}
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true, margin: '-80px' }}
-      transition={{ duration: 0.5, delay, ease: 'easeOut' }}
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.15, margin: '0px 0px -8% 0px' }}
+      transition={{ duration: 0.6, delay, ease: smoothEase }}
+      style={{ willChange: 'transform, opacity' }}
       className={className}
       {...props}
     >
