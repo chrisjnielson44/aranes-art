@@ -34,7 +34,7 @@ export async function sendInquiry(inquiry: Inquiry): Promise<{ ok: boolean }> {
 
   const details = [`Name: ${name}`, `Email: ${email}`, phone && `Phone: ${phone}`, artwork && `Artwork: ${artwork}`]
   const { error } = await new Resend(apiKey).emails.send({
-    from: `"${name.replace(/["\\<>]/g, '')} via Aranes Art" <contact@${domain}>`,
+    from: `"${name.replace(/["\\<>]/g, '')} via Aranes Art" <info@${domain}>`,
     to: to.split(',').map((address) => address.trim()),
     replyTo: email,
     subject: `New inquiry from ${name}${artwork ? ` about ${artwork}` : ''}`,
