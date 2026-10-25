@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@tailwindplus/elements": "^1.0.21",
+    "botid": "^1.5.11",
     "clsx": "^2.1.1",
     "framer-motion": "^12.25.0",
     "motion": "^12.26.2",
