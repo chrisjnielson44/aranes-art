@@ -10,108 +10,8 @@ import { Navbar } from '@/components/navbar'
 import { CallToActionSimpleCentered } from '@/components/sections/call-to-action-simple-centered'
 import { GalleryGrid } from '@/components/sections/gallery-grid'
 import { HeroSimpleCentered } from '@/components/sections/hero-simple-centered'
+import { artworks } from '@/lib/artworks'
 import { useState } from 'react'
-
-const artworks = [
-  {
-    id: '9',
-    title: 'The Woman',
-    medium: 'Acrylic on Canvas',
-    dimensions: '31.5" x 47.5"',
-    image: '/The Woman.jpeg',
-    displayWidth: 31.5,
-    displayHeight: 47.5,
-    sold: false,
-  },
-  {
-    id: '8',
-    title: 'The Man',
-    medium: 'Acrylic on Canvas',
-    dimensions: '31.5" x 47.5"',
-    image: '/The Man.jpeg',
-    displayWidth: 31.5,
-    displayHeight: 47.5,
-    sold: false,
-  },
-  {
-    id: '7',
-    title: 'Colorful Winds',
-    medium: 'Acrylic on Canvas',
-    dimensions: '24" x 48"',
-    image: '/Colorful Winds.jpeg',
-    displayWidth: 24,
-    displayHeight: 48,
-    sold: false,
-  },
-  {
-    id: '6',
-    title: 'Aurora',
-    medium: 'Acrylic on Canvas',
-    dimensions: '24" x 48"',
-    image: '/Aurora.jpeg',
-    displayWidth: 24,
-    displayHeight: 48,
-    sold: false,
-  },
-  {
-    id: '4',
-    title: 'Ocean Ballet',
-    medium: 'Acrylic on Canvas',
-    dimensions: '48" x 60"',
-    image: '/Ocean Ballet.jpg',
-    displayWidth: 60,
-    displayHeight: 48,
-    sold: false,
-  },
-  {
-    id: '5',
-    title: 'Musical Falls',
-    medium: 'Acrylic on Canvas',
-    dimensions: '36" x 48"',
-    image: '/Musical Falls.jpg',
-    displayWidth: 36,
-    displayHeight: 48,
-    sold: false,
-  },
-  {
-    id: '10',
-    title: 'Sunset in the Mountains',
-    medium: 'Acrylic on Canvas',
-    dimensions: '48" x 36"',
-    image: '/Sunset in the Mountains.jpeg',
-    displayWidth: 48,
-    displayHeight: 36,
-    sold: false,
-  },
-  {
-    id: '1',
-    title: 'Somewhere in La Mancha',
-    medium: 'Acrylic on Canvas',
-    dimensions: '72" x 48"',
-    image: '/Somewhere in La Mancha.jpeg',
-    displayWidth: 72,
-    displayHeight: 48,
-    sold: false,
-  },
-  {
-    id: '2',
-    title: 'Song of the Pear',
-    medium: 'Acrylic on Canvas',
-    dimensions: '31.5" x 47.5"',
-    image: '/Song of the Pear.jpg',
-    displayWidth: 31.5,
-    displayHeight: 47.5,
-    sold: false,
-  },
-  /*{
-    id: '1',
-    title: 'Somewhere in La Mancha',
-    medium: 'Acrylic on Canvas',
-    dimensions: '48" x 72"',
-    image: '/Somewhere in La Mancha.jpg',
-    sold: false,
-  },*/
-]
 
 const largestArtworkSide = 40
 const threeAcrossArtworkIds = new Set(['4', '5', '10'])
@@ -185,11 +85,7 @@ export default function Page() {
           <CallToActionSimpleCentered
             id="contact-cta"
             headline="Interested in a piece for your gallery?"
-            subheadline={
-              <p>
-                Gallery owners, I&apos;d love to hear from you.
-              </p>
-            }
+            subheadline={<p>Gallery owners, I&apos;d love to hear from you.</p>}
             cta={
               <ButtonLink href="/contact" size="lg">
                 Contact Me

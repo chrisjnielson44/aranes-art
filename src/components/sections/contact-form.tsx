@@ -1,195 +1,207 @@
 'use client'
 
-import { sendInquiry } from '@/app/contact/actions'
+import { sendInquiry, type InquiryState } from '@/app/contact/actions'
+import { INQUIRER_KINDS } from '@/app/contact/inquirer-kinds'
 import { clsx } from 'clsx/lite'
-import { useState } from 'react'
-import { Button } from '../elements/button'
-import { Section } from '../elements/section'
+import { useActionState, type ReactNode } from 'react'
+import { ButtonLink } from '../elements/button'
+import { ArrowNarrowRightIcon } from '../icons/arrow-narrow-right-icon'
+import { CheckmarkIcon } from '../icons/checkmark-icon'
+import { ChevronIcon } from '../icons/chevron-icon'
 
-export function ContactForm({
-  artworks = [],
+const control = clsx(
+  'w-full rounded-xl border border-olive-950/10 bg-olive-50 px-4 py-3 text-base/6 text-olive-950 transition sm:text-sm/6',
+  'placeholder:text-olive-500 hover:border-olive-950/20 focus:border-olive-500 focus:bg-white focus:ring-4 focus:ring-olive-500/15 focus:outline-none',
+  'aria-invalid:border-red-500/60 aria-invalid:focus:ring-red-500/15',
+  'dark:border-white/10 dark:bg-white/5 dark:text-white dark:placeholder:text-olive-400 dark:hover:border-white/20',
+  'dark:focus:border-olive-400 dark:focus:bg-white/10 dark:focus:ring-olive-400/20',
+)
+
+function Field({
+  id,
+  label,
+  optional,
+  error,
   className,
-  ...props
+  children,
 }: {
-  artworks?: Array<{ id: string; title: string }>
-} & React.ComponentProps<typeof Section>) {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    artworkInterest: '',
-    message: '',
-    website: '',
-  })
-  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
+  id: string
+  label: ReactNode
+  optional?: boolean
+  error?: string
+  className?: string
+  children: ReactNode
+}) {
+  return (
+    <div className={clsx('flex flex-col gap-2', className)}>
+      <label htmlFor={id} className="flex justify-between text-sm/6 font-medium text-olive-950 dark:text-white">
+        {label}
+        {optional && <span className="font-normal text-olive-500 dark:text-olive-400">Optional</span>}
+      </label>
+      {children}
+      {error && (
+        <p id={`${id}-error`} className="text-sm/6 text-red-700 dark:text-red-400">
+          {error}
+        </p>
+      )}
+    </div>
+  )
+}
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setStatus('submitting')
+/** Error props for an input whose server-side validation may fail. */
+function invalid(id: string, error?: string) {
+  return { 'aria-invalid': Boolean(error), 'aria-describedby': error ? `${id}-error` : undefined }
+}
 
-    const artworkTitle = artworks.find((artwork) => artwork.id === formData.artworkInterest)?.title ?? ''
-    try {
-      const { ok } = await sendInquiry({ ...formData, artworkInterest: artworkTitle })
-      if (!ok) throw new Error('Inquiry was not sent')
-      setStatus('success')
-      setFormData({ name: '', email: '', phone: '', artworkInterest: '', message: '', website: '' })
-    } catch {
-      setStatus('error')
-    }
-  }
+export function ContactForm({ artworks }: { artworks: Array<{ id: string; title: string }> }) {
+  const [state, formAction, pending] = useActionState<InquiryState, FormData>(sendInquiry, { status: 'idle' })
+  const fieldErrors = state.status === 'error' ? state.fieldErrors : undefined
+  const values = state.status === 'error' ? state.values : {}
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
+  if (state.status === 'success') {
+    return (
+      <div role="status" className="flex flex-col items-start gap-6 py-6">
+        <span className="flex size-12 items-center justify-center rounded-full bg-olive-950 text-white dark:bg-olive-300 dark:text-olive-950">
+          <CheckmarkIcon className="size-5" />
+        </span>
+        <div className="flex flex-col gap-3">
+          <h2 className="font-display text-4xl/10 tracking-tight text-olive-950 dark:text-white">
+            Thank you{state.name && `, ${state.name}`}.
+          </h2>
+          <p className="max-w-md text-base/7 text-olive-700 dark:text-olive-400">
+            Your message is on its way to me, and I&apos;ll reply by email soon.
+          </p>
+        </div>
+        <ButtonLink href="/" size="lg">
+          Back to the gallery
+        </ButtonLink>
+      </div>
+    )
   }
 
   return (
-    <Section className={className} {...props}>
-      <form onSubmit={handleSubmit} className="w-full">
-        <div className="mx-auto flex w-full max-w-none flex-col gap-6">
-          {/* Name Field */}
-          <div>
-            <label htmlFor="name" className="block text-sm font-medium text-olive-950 dark:text-white">
-              Name <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              required
-              value={formData.name}
-              onChange={handleChange}
+    <form action={formAction} noValidate className="flex flex-col gap-8">
+      {/* Honeypot: hidden from people and assistive tech, tempting to bots. */}
+      <div className="hidden" aria-hidden="true">
+        <label htmlFor="website">Website</label>
+        <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
+      </div>
+
+      <fieldset className="flex flex-col gap-3">
+        <legend className="mb-3 text-sm/6 font-medium text-olive-950 dark:text-white">
+          I&apos;m reaching out as a
+        </legend>
+        <div className="flex flex-wrap gap-2">
+          {Object.entries(INQUIRER_KINDS).map(([value, label]) => (
+            <label
+              key={value}
               className={clsx(
-                'mt-2 w-full rounded-lg border border-olive-950/10 bg-white px-4 py-3 text-olive-950',
-                'placeholder:text-olive-500 focus:border-olive-500 focus:ring-2 focus:ring-olive-500/20 focus:outline-none',
-                'dark:border-white/10 dark:bg-olive-950/50 dark:text-white dark:placeholder:text-olive-400',
-                'dark:focus:border-olive-400 dark:focus:ring-olive-400/20',
+                'cursor-pointer rounded-full border border-olive-950/10 px-4 py-2 text-sm/6 text-olive-800 transition select-none',
+                'hover:border-olive-950/25 has-checked:border-olive-950 has-checked:bg-olive-950 has-checked:text-white',
+                'has-focus-visible:ring-4 has-focus-visible:ring-olive-500/25',
+                'dark:border-white/15 dark:text-olive-200 dark:hover:border-white/30',
+                'dark:has-checked:border-olive-300 dark:has-checked:bg-olive-300 dark:has-checked:text-olive-950',
               )}
-              placeholder="Your full name"
-            />
-          </div>
-
-          {/* Email Field */}
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-olive-950 dark:text-white">
-              Email <span className="text-red-500">*</span>
+            >
+              <input
+                type="radio"
+                name="kind"
+                value={value}
+                defaultChecked={values.kind === value}
+                className="sr-only"
+              />
+              {label}
             </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              required
-              value={formData.email}
-              onChange={handleChange}
-              className={clsx(
-                'mt-2 w-full rounded-lg border border-olive-950/10 bg-white px-4 py-3 text-olive-950',
-                'placeholder:text-olive-500 focus:border-olive-500 focus:ring-2 focus:ring-olive-500/20 focus:outline-none',
-                'dark:border-white/10 dark:bg-olive-950/50 dark:text-white dark:placeholder:text-olive-400',
-                'dark:focus:border-olive-400 dark:focus:ring-olive-400/20',
-              )}
-              placeholder="your.email@example.com"
-            />
-          </div>
-
-          {/* Phone Field */}
-          <div>
-            <label htmlFor="phone" className="block text-sm font-medium text-olive-950 dark:text-white">
-              Phone Number
-            </label>
-            <input
-              type="tel"
-              id="phone"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              className={clsx(
-                'mt-2 w-full rounded-lg border border-olive-950/10 bg-white px-4 py-3 text-olive-950',
-                'placeholder:text-olive-500 focus:border-olive-500 focus:ring-2 focus:ring-olive-500/20 focus:outline-none',
-                'dark:border-white/10 dark:bg-olive-950/50 dark:text-white dark:placeholder:text-olive-400',
-                'dark:focus:border-olive-400 dark:focus:ring-olive-400/20',
-              )}
-              placeholder="(123) 456-7890"
-            />
-          </div>
-
-          {/* Artwork Interest Dropdown */}
-          {artworks.length > 0 && (
-            <div>
-              <label htmlFor="artworkInterest" className="block text-sm font-medium text-olive-950 dark:text-white">
-                Artwork of Interest
-              </label>
-              <select
-                id="artworkInterest"
-                name="artworkInterest"
-                value={formData.artworkInterest}
-                onChange={handleChange}
-                className={clsx(
-                  'mt-2 w-full rounded-lg border border-olive-950/10 bg-white px-4 py-3 text-olive-950',
-                  'focus:border-olive-500 focus:ring-2 focus:ring-olive-500/20 focus:outline-none',
-                  'dark:border-white/10 dark:bg-olive-950/50 dark:text-white',
-                  'dark:focus:border-olive-400 dark:focus:ring-olive-400/20',
-                )}
-              >
-                <option value="">Select an artwork (optional)</option>
-                {artworks.map((artwork) => (
-                  <option key={artwork.id} value={artwork.id}>
-                    {artwork.title}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
-
-          {/* Message Field */}
-          <div>
-            <label htmlFor="message" className="block text-sm font-medium text-olive-950 dark:text-white">
-              Message <span className="text-red-500">*</span>
-            </label>
-            <textarea
-              id="message"
-              name="message"
-              required
-              rows={6}
-              value={formData.message}
-              onChange={handleChange}
-              className={clsx(
-                'mt-2 w-full resize-none rounded-lg border border-olive-950/10 bg-white px-4 py-3 text-olive-950',
-                'placeholder:text-olive-500 focus:border-olive-500 focus:ring-2 focus:ring-olive-500/20 focus:outline-none',
-                'dark:border-white/10 dark:bg-olive-950/50 dark:text-white dark:placeholder:text-olive-400',
-                'dark:focus:border-olive-400 dark:focus:ring-olive-400/20',
-              )}
-              placeholder="Tell me about your gallery interest..."
-            />
-          </div>
-
-          {/* Honeypot: hidden from people, filled in by bots */}
-          <input
-            type="text"
-            name="website"
-            tabIndex={-1}
-            autoComplete="off"
-            aria-hidden="true"
-            value={formData.website}
-            onChange={handleChange}
-            className="hidden"
-          />
-
-          {/* Submit Button */}
-          <div className="flex items-center gap-4">
-            <Button type="submit" size="lg" disabled={status === 'submitting'}>
-              {status === 'submitting' ? 'Sending...' : 'Send Message'}
-            </Button>
-
-            {status === 'success' && (
-              <p className="text-sm text-green-600 dark:text-green-400">Message sent successfully!</p>
-            )}
-
-            {status === 'error' && (
-              <p className="text-sm text-red-600 dark:text-red-400">Failed to send message. Please try again.</p>
-            )}
-          </div>
+          ))}
         </div>
-      </form>
-    </Section>
+      </fieldset>
+
+      <div className="grid gap-6 sm:grid-cols-2">
+        <Field id="name" label="Name" error={fieldErrors?.name}>
+          <input
+            id="name"
+            name="name"
+            defaultValue={values.name}
+            autoComplete="name"
+            placeholder="Your full name"
+            required
+            className={control}
+            {...invalid('name', fieldErrors?.name)}
+          />
+        </Field>
+        <Field id="email" label="Email" error={fieldErrors?.email}>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            defaultValue={values.email}
+            autoComplete="email"
+            placeholder="you@example.com"
+            required
+            className={control}
+            {...invalid('email', fieldErrors?.email)}
+          />
+        </Field>
+        <Field id="phone" label="Phone" optional>
+          <input
+            id="phone"
+            name="phone"
+            type="tel"
+            defaultValue={values.phone}
+            autoComplete="tel"
+            placeholder="(123) 456-7890"
+            className={control}
+          />
+        </Field>
+        <Field id="artwork" label="Artwork of interest" optional>
+          <div className="relative">
+            <select
+              id="artwork"
+              name="artwork"
+              defaultValue={values.artwork ?? ''}
+              className={clsx(control, 'appearance-none pr-10')}
+            >
+              <option value="">No particular piece</option>
+              {artworks.map((artwork) => (
+                <option key={artwork.id} value={artwork.id}>
+                  {artwork.title}
+                </option>
+              ))}
+            </select>
+            <ChevronIcon className="pointer-events-none absolute top-1/2 right-4 -translate-y-1/2 rotate-90 text-olive-500" />
+          </div>
+        </Field>
+        <Field id="message" label="Message" error={fieldErrors?.message} className="sm:col-span-2">
+          <textarea
+            id="message"
+            name="message"
+            rows={6}
+            defaultValue={values.message}
+            placeholder="Tell me about your gallery, the space you have in mind, or the piece that caught your eye."
+            required
+            className={clsx(control, 'resize-y')}
+            {...invalid('message', fieldErrors?.message)}
+          />
+        </Field>
+      </div>
+
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div aria-live="polite" className="text-sm/6 text-red-700 dark:text-red-400">
+          {state.status === 'error' && !fieldErrors && state.message}
+        </div>
+        <button
+          type="submit"
+          disabled={pending}
+          className={clsx(
+            'group inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-olive-950 px-6 py-3 text-sm/6 font-medium text-white transition',
+            'hover:bg-olive-800 disabled:cursor-wait disabled:opacity-70',
+            'dark:bg-olive-300 dark:text-olive-950 dark:hover:bg-olive-200',
+          )}
+        >
+          {pending ? 'Sending…' : 'Send message'}
+          {!pending && <ArrowNarrowRightIcon className="transition-transform group-hover:translate-x-0.5" />}
+        </button>
+      </div>
+    </form>
   )
 }
