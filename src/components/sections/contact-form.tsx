@@ -1,5 +1,6 @@
 'use client'
 
+import { sendInquiry } from '@/app/contact/actions'
 import { clsx } from 'clsx/lite'
 import { useState } from 'react'
 import { Button } from '../elements/button'
@@ -18,6 +19,7 @@ export function ContactForm({
     phone: '',
     artworkInterest: '',
     message: '',
+    website: '',
   })
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
 
@@ -25,12 +27,15 @@ export function ContactForm({
     e.preventDefault()
     setStatus('submitting')
 
-    // TODO: Implement actual form submission
-    // For now, just simulate success
-    setTimeout(() => {
+    const artworkTitle = artworks.find((artwork) => artwork.id === formData.artworkInterest)?.title ?? ''
+    try {
+      const { ok } = await sendInquiry({ ...formData, artworkInterest: artworkTitle })
+      if (!ok) throw new Error('Inquiry was not sent')
       setStatus('success')
-      setFormData({ name: '', email: '', phone: '', artworkInterest: '', message: '' })
-    }, 1000)
+      setFormData({ name: '', email: '', phone: '', artworkInterest: '', message: '', website: '' })
+    } catch {
+      setStatus('error')
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -156,6 +161,18 @@ export function ContactForm({
               placeholder="Tell me about your gallery interest..."
             />
           </div>
+
+          {/* Honeypot: hidden from people, filled in by bots */}
+          <input
+            type="text"
+            name="website"
+            tabIndex={-1}
+            autoComplete="off"
+            aria-hidden="true"
+            value={formData.website}
+            onChange={handleChange}
+            className="hidden"
+          />
 
           {/* Submit Button */}
           <div className="flex items-center gap-4">
