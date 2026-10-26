@@ -8,10 +8,15 @@ import { Navbar } from '@/components/navbar'
 import { ContactForm } from '@/components/sections/contact-form'
 import { HeroSimpleCentered } from '@/components/sections/hero-simple-centered'
 import { artworks } from '@/lib/artworks'
+import Image from 'next/image'
 
 const available = artworks.filter((artwork) => !artwork.sold)
 
-export default function Page() {
+export default async function Page({ searchParams }: { searchParams: Promise<{ artwork?: string }> }) {
+  // "Inquire about this piece" in the gallery links here with ?artwork=<id>.
+  const { artwork } = await searchParams
+  const selected = available.find(({ id }) => id === artwork)?.id
+
   return (
     <>
       <Navbar />
@@ -32,10 +37,14 @@ export default function Page() {
             <div className="grid gap-10 lg:grid-cols-5 lg:gap-16">
               <aside className="flex flex-col gap-8 lg:col-span-2">
                 <div className="overflow-hidden rounded-2xl outline -outline-offset-1 outline-black/5 dark:outline-white/5">
-                  <img
-                    src="/Ocean Ballet.jpg"
-                    alt="Ocean Ballet, acrylic on canvas"
-                    className="aspect-5/4 w-full object-cover"
+                  <Image
+                    src="/Somewhere in La Mancha.jpeg"
+                    alt="Somewhere in La Mancha, acrylic on canvas"
+                    width={2708}
+                    height={1785}
+                    sizes="(min-width: 1024px) 40vw, 100vw"
+                    priority
+                    className="w-full"
                   />
                 </div>
                 <p className="text-base/7 text-olive-700 dark:text-olive-400">
@@ -68,7 +77,7 @@ export default function Page() {
               </aside>
 
               <div className="flex flex-col justify-center rounded-3xl bg-white p-6 shadow-sm ring-1 ring-olive-950/5 sm:p-10 lg:col-span-3 dark:bg-white/5 dark:ring-white/10">
-                <ContactForm artworks={available} />
+                <ContactForm artworks={available} selected={selected} />
               </div>
             </div>
           </Container>

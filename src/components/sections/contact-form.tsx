@@ -53,7 +53,14 @@ function invalid(id: string, error?: string) {
   return { 'aria-invalid': Boolean(error), 'aria-describedby': error ? `${id}-error` : undefined }
 }
 
-export function ContactForm({ artworks }: { artworks: Array<{ id: string; title: string }> }) {
+export function ContactForm({
+  artworks,
+  selected,
+}: {
+  artworks: Array<{ id: string; title: string }>
+  /** The painting to preselect, when the visitor came from a painting's Inquire button. */
+  selected?: string
+}) {
   const [state, formAction, pending] = useActionState<InquiryState, FormData>(sendInquiry, { status: 'idle' })
   const fieldErrors = state.status === 'error' ? state.fieldErrors : undefined
   const values = state.status === 'error' ? state.values : {}
@@ -158,7 +165,7 @@ export function ContactForm({ artworks }: { artworks: Array<{ id: string; title:
             <select
               id="artwork"
               name="artwork"
-              defaultValue={values.artwork ?? ''}
+              defaultValue={values.artwork ?? selected ?? ''}
               className={clsx(control, 'appearance-none pr-10')}
             >
               <option value="">No particular piece</option>

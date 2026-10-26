@@ -30,3 +30,40 @@
     }
   }
 }
+
+/* Signature logo (src/components/logo.tsx): each mask stroke stays hidden until its turn, then the pen draws it in. */
+.signature-stroke {
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 1;
+  opacity: 0;
+  animation-name: signature-draw;
+  animation-timing-function: cubic-bezier(0.45, 0, 0.4, 1);
+  animation-fill-mode: forwards;
+}
+
+@keyframes signature-draw {
+  from {
+    opacity: 1;
+    stroke-dashoffset: 1;
+  }
+  to {
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Already written this session (see SIGNED_STORAGE_KEY), or the visitor prefers less motion: show it finished. */
+html[data-signed~='on-load'] .signature-stroke[data-signature='on-load'],
+html[data-signed~='in-view'] .signature-stroke[data-signature='in-view'] {
+  animation: none;
+  opacity: 1;
+  stroke-dashoffset: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .signature-stroke {
+    animation: none;
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+}

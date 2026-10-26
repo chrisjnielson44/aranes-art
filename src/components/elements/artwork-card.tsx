@@ -6,7 +6,6 @@ import type { ComponentProps, CSSProperties, ReactNode } from 'react'
 export function ArtworkCard({
   image,
   title,
-  medium,
   dimensions,
   year,
   sold = false,
@@ -20,7 +19,6 @@ export function ArtworkCard({
 }: {
   image: ReactNode
   title: string
-  medium?: string
   dimensions?: string
   year?: string | number
   sold?: boolean
@@ -30,8 +28,7 @@ export function ArtworkCard({
   displayHeight?: number
   displayMaxSide?: number
 } & ComponentProps<'div'>) {
-  const shouldScaleArtwork =
-    displayWidth !== undefined && displayHeight !== undefined && displayMaxSide !== undefined
+  const shouldScaleArtwork = displayWidth !== undefined && displayHeight !== undefined && displayMaxSide !== undefined
   const scaledArtworkStyle = shouldScaleArtwork
     ? ({
         '--artwork-width': `${Math.min((displayWidth / displayMaxSide) * 100, 100)}%`,
@@ -76,19 +73,13 @@ export function ArtworkCard({
       </div>
 
       {showDetails && (
-        <div className="mt-4 flex flex-col gap-1">
-          <h3 className="font-semibold text-olive-950 dark:text-white">{title}</h3>
-
-          {medium && <p className="text-sm text-olive-700 dark:text-olive-400">{medium}</p>}
-
+        <div className="mt-4 flex flex-col items-center gap-0.5 text-center">
+          <h3 className="font-display text-xl/7 text-olive-950 dark:text-white">{title}</h3>
           {(dimensions || year) && (
-            <p className="text-sm text-olive-600 dark:text-olive-500">
-              {dimensions}
-              {dimensions && year && ' • '}
-              {year}
+            <p className="text-sm/6 text-olive-600 dark:text-olive-500">
+              {[dimensions, year].filter(Boolean).join(' · ')}
             </p>
           )}
-
         </div>
       )}
     </div>

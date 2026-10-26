@@ -19,7 +19,9 @@ const threeAcrossArtworkIds = new Set(['4', '5', '10'])
 const fullRowArtworkIds = new Set(['1'])
 
 export default function Page() {
-  const [selectedArtwork, setSelectedArtwork] = useState<(typeof artworks)[0] | null>(null)
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
+  const step = (by: number) =>
+    setSelectedIndex((index) => (index === null ? null : (index + by + artworks.length) % artworks.length))
 
   return (
     <>
@@ -68,13 +70,13 @@ export default function Page() {
                   />
                 }
                 title={artwork.title}
-                medium={artwork.medium}
                 dimensions={artwork.dimensions}
                 displayWidth={artwork.displayWidth}
                 displayHeight={artwork.displayHeight}
                 displayMaxSide={largestArtworkSide}
                 sold={artwork.sold}
-                onClick={() => setSelectedArtwork(artwork)}
+                showDetails
+                onClick={() => setSelectedIndex(index)}
               />
             </FadeIn>
           ))}
@@ -97,15 +99,13 @@ export default function Page() {
       <Footer />
 
       {/* Artwork Modal */}
-      {selectedArtwork && (
+      {selectedIndex !== null && (
         <ArtworkModal
-          isOpen={!!selectedArtwork}
-          onClose={() => setSelectedArtwork(null)}
-          image={<img src={selectedArtwork.image} alt={selectedArtwork.title} />}
-          title={selectedArtwork.title}
-          medium={selectedArtwork.medium}
-          dimensions={selectedArtwork.dimensions}
-          sold={selectedArtwork.sold}
+          artwork={artworks[selectedIndex]}
+          position={`${selectedIndex + 1} of ${artworks.length}`}
+          onClose={() => setSelectedIndex(null)}
+          onPrevious={() => step(-1)}
+          onNext={() => step(1)}
         />
       )}
     </>
