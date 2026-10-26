@@ -99,3 +99,5 @@ export const artworks = [
     sold: false,
   },*/
 ]
+
+export type Artwork = (typeof artworks)[number]

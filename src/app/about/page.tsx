@@ -48,7 +48,7 @@ export default function Page() {
           footer={
             <FadeIn delay={0.4}>
               <div className="flex justify-center py-16">
-                <Logo className="text-olive-950 dark:text-white" width="800" height="400" />
+                <Logo className="text-olive-950 dark:text-white" width="800" height="400" drawn="in-view" />
               </div>
             </FadeIn>
           }

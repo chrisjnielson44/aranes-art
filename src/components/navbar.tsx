@@ -18,7 +18,7 @@ export function Navbar() {
       }
       logo={
         <NavbarLogo href="/">
-          <Logo className="text-olive-950 dark:text-white" width={160} height={82} />
+          <Logo className="text-olive-950 dark:text-white" width={160} height={82} drawn="on-load" />
         </NavbarLogo>
       }
       actions={<></>}
