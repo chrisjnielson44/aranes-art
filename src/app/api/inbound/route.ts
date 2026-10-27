@@ -41,6 +41,11 @@ export async function POST(request: Request) {
     console.error('Inbound email lookup failed', event.data.email_id, error)
     return new Response('Email not available', { status: 500 })
   }
+  // Resend sends every domain's mail in the account to every webhook, so skip mail meant for another domain.
+  const recipients = email.received_for?.length ? email.received_for : email.to
+  if (!recipients.some((address) => address.toLowerCase().endsWith(`@${domain.toLowerCase()}`))) {
+    return new Response(null, { status: 204 })
+  }
 
   const raw = await fetch(email.raw.download_url, { signal: AbortSignal.timeout(15_000) })
   if (!raw.ok) {
@@ -67,7 +72,7 @@ export async function POST(request: Request) {
         contentId: attachment.contentId?.replace(/^<|>$/g, '') || undefined,
       })),
     },
-    { idempotencyKey: `inbound-${email.id}` },
+    { idempotencyKey: `inbound-${domain}-${email.id}` },
   )
   if (sendError) {
     console.error('Inbound email forward failed', email.id, sendError)
